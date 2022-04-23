@@ -1,17 +1,15 @@
-package com.example.spring_security_lab1.Repository;
+package com.example.spring_security_lab1.WebConfig;
 
+import com.example.spring_security_lab1.Entity.Role;
 import com.example.spring_security_lab1.Entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Data
@@ -23,17 +21,27 @@ public class CustomUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole()));
+        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>(userEntity.getRoless().size());
+        for(Role role : userEntity.getRoless()){
+            roles.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return roles;
     }
 
     @Override
     public String getPassword() {
-        return userEntity.getPassword();
+        if(userEntity != null)
+            return userEntity.getPassword();
+        else
+            return "";
     }
 
     @Override
     public String getUsername() {
-        return userEntity.getUsername();
+        if(userEntity != null)
+            return userEntity.getUsername();
+        else
+            return "";
     }
 
     @Override

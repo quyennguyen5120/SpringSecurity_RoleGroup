@@ -6,10 +6,17 @@
 </head>
 <body>
   <form th:action="@{/login}" method="post" >
-        <label>Username</label>
-        <input type="text" placeholder="Nhap username ..."  name="username">
+      <div>
+          <label>Username</label>
+          <input type="text" placeholder="Nhap username ..."  name="username">
+      </div>
+      <div>
           <label>Password</label>
           <input type="password"    name="password">
+      </div>
+       <div>
+           <label>Remember Me:</label><input type="checkbox" name="remember-me" />
+       </div>
       <button type="submit">Login</button>
   </form>
 </body>
